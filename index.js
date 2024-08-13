@@ -23,7 +23,7 @@ const generateToken = async (req, res, next) => {
     req.token = response.data.access_token;
     next();
   } catch (e) {
-    console.log(e);
+    console.error('Error details:', e.response ? e.response.data : e.message);
     res.status(500).json({ error: "Error generating token" });
   }
 };
@@ -77,7 +77,7 @@ app.post("/stk", generateToken, async (req, res) => {
         PartyA: `254${phone}`,
         PartyB: shortCode,
         PhoneNumber: `254${phone}`,
-        CallBackURL: "https://your-deployment-url.vercel.app/callback", // Replace with your Vercel deployment URL
+        CallBackURL: "https://f172-105-161-112-136.ngrok-free.app/callback",
         AccountReference: `Mlosafi`,
         TransactionDesc: "Mlosafi",
       },
@@ -89,7 +89,7 @@ app.post("/stk", generateToken, async (req, res) => {
     );
     res.status(200).json(response.data);
   } catch (err) {
-    console.log(err.message);
+    console.error('Error details:', err.response ? err.response.data : err.message);
     res.status(400).json({ error: err.message });
   }
 });
@@ -111,4 +111,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`App is running on port ${port}`);
 });
-
